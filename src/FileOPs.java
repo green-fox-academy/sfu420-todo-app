@@ -42,4 +42,9 @@ public class FileOPs {
     this.lines.add((this.lines.size() + 1) + " - " + "Do homework");
     writeFile(this.lines);
   }
+
+  public void addNewTask(String newTask) {
+    this.lines.add((this.lines.size() + 1) + " - " + newTask);
+    writeFile(this.lines);
+  }
 }

@@ -13,8 +13,9 @@ public class todo {
       } else {
         fIO.printContent(fIO.readFile());
       }
+    } else if (args[0].equals("-a")) {
+      fIO.addNewTask(args[1]);
     }
-
   }
 
   public static void printHelp() {
@@ -27,6 +28,4 @@ public class todo {
         "\t-c   Completes a task";
     System.out.println(help);
   }
-
-
 }
