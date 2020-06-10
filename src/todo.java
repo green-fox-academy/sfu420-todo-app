@@ -1,18 +1,18 @@
 import java.util.Arrays;
 
-public class Todo {
+public class todo {
 
   public static void main(String[] args) {
     FileOPs fIO = new FileOPs();
 
     String[] arguments = {"-l", "-a", "-r", "-c"};
 
-    fIO.readFile();
     //fIO.fillFile();
 
     if (args.length == 0) {
       printHelp();
     } else if (Arrays.asList(arguments).contains(args[0])) {
+      fIO.readFile();
       if (args[0].equals("-l")) {
         if (fIO.getTasks().size() == 0) {
           System.out.println("No todos for today! :)");
@@ -30,6 +30,12 @@ public class Todo {
           System.out.println("Unable to remove: no index provided");
         } else {
           fIO.removeTask(args[1]);
+        }
+      } else if (args[0].equals("-c")) {
+        if (args.length < 2) {
+          System.out.println("Unable to check: no index provided");
+        } else {
+          fIO.checkTask(args[1]);
         }
       }
     } else {

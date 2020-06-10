@@ -7,15 +7,15 @@ import java.util.List;
 
 public class FileOPs {
   protected List<Task> tasks = new ArrayList<>();
-  protected final String filename = "tasks.txt";
+  protected final String filename = "./tasks.txt";
 
   public void readFile() {
     List<String> fileLines = new ArrayList<>();
     try {
-      Path filePath = Paths.get("./" + this.filename);
+      Path filePath = Paths.get(this.filename);
       fileLines = Files.readAllLines(filePath);
     } catch (IOException e) {
-      System.out.println("The file does not exist, trying to create a new one...");
+      System.out.println("File does not exist, creating a new one...");
       writeFile();
     }
     convertFileToTask(fileLines);
@@ -23,7 +23,7 @@ public class FileOPs {
 
   public void writeFile() {
     try {
-      Path filePath = Paths.get("./" + this.filename);
+      Path filePath = Paths.get(this.filename);
       Files.write(filePath, convertTaskToFile());
     } catch (IOException e) {
       System.out.println("Can't write file. Please check permission");
@@ -71,6 +71,22 @@ public class FileOPs {
       } catch (IndexOutOfBoundsException e) {
         System.out.println("Unable to remove: index is out of bound");
       }
+    } else {
+      System.out.println("Unable to remove: index is not a number");
+    }
+    writeFile();
+  }
+
+  public void checkTask(String indexOfTask) {
+    if (isNumber(indexOfTask)) {
+      try {
+        this.tasks.set(Integer.parseInt(indexOfTask) - 1,
+            new Task(this.tasks.get(Integer.parseInt(indexOfTask) - 1).name, true));
+      } catch (IndexOutOfBoundsException e) {
+        System.out.println("Unable to check: index is out of bound");
+      }
+    } else {
+      System.out.println("Unable to check: index is not a number");
     }
     writeFile();
   }
@@ -80,10 +96,8 @@ public class FileOPs {
       Integer temp = Integer.parseInt(indexOfTask);
       return true;
     } catch (NumberFormatException e) {
-      System.out.println("Unable to remove: index is not a number");
-      System.exit(2);
+      return false;
     }
-    return false;
   }
 
   public void fillFile() {
