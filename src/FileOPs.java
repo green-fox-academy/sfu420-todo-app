@@ -6,65 +6,72 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileOPs {
-  protected List<String> lines = new ArrayList<>();
+  protected List<Task> lines = new ArrayList<>();
   protected final String filename = "tasks.txt";
 
   public List<String> readFile() {
+    List<String> fileLines = new ArrayList<>();
     try {
       Path filePath = Paths.get("./" + this.filename);
-      this.lines = Files.readAllLines(filePath);
+      fileLines = Files.readAllLines(filePath);
     } catch (IOException e) {
       System.out.println("The file does not exist, trying to create a new one...");
-      writeFile(this.lines);
-//      System.exit(2);
+      writeFile();
     }
-    return this.lines;
+    return fileLines;
   }
 
-  public void writeFile(List<String> content) {
+  public void writeFile() {
     try {
       Path filePath = Paths.get("./" + this.filename);
-      Files.write(filePath, content);
+      Files.write(filePath, convertTaskToFile());
     } catch (IOException e) {
       System.out.println("Can't write file. Please check permission");
       System.exit(2);
     }
   }
 
-  public void printContent(List<String> content) {
-    for (String line : content) {
-      System.out.println(line);
+  public List<Task> convertFileToTask() {
+    List<String> fileLines;
+    fileLines = readFile();
+    if (fileLines.size() > 0) {
+      for (String line : fileLines) {
+        String[] lineContent = line.split(",");
+        this.lines.add(new Task(Boolean.parseBoolean(lineContent[0]), lineContent[1]));
+      }
     }
+    return this.lines;
   }
 
-  public void fillFile() {
-    this.lines.add((this.lines.size() + 1) + " - " + "Walk the dog");
-    this.lines.add((this.lines.size() + 1) + " - " + "Bux Milk");
-    this.lines.add((this.lines.size() + 1) + " - " + "Do homework");
-    writeFile(this.lines);
+  public List<String> convertTaskToFile() {
+    List<String> fileLines = new ArrayList<>();
+    for (Task line : this.lines) {
+      fileLines.add(line.isDone + "," + line.name);
+    }
+    return fileLines;
+  }
+
+  public void printContent() {
+    for (int i = 0; i < this.lines.size(); i++) {
+      System.out.println(
+          (i + 1) + " - " + (this.lines.get(i).isDone ? "[x] " : "[ ] ") + this.lines.get(i).name);
+    }
   }
 
   public void addNewTask(String newTask) {
-    this.lines.add((this.lines.size() + 1) + " - " + newTask);
-    writeFile(this.lines);
+    this.lines.add(new Task(newTask));
+    writeFile();
   }
 
   public void removeTask(String index) {
-    boolean exists = false;
     if (isNumber(index)) {
-      for (int i = 0; i < this.lines.size(); i++) {
-        String[] temp = this.lines.get(i).split(" ");
-        if (Integer.parseInt(temp[0]) == Integer.parseInt(index)) {
-          this.lines.remove(i);
-          exists = true;
-        }
-      }
-      if (exists) {
-        writeFile(this.lines);
-      } else {
+      try {
+        this.lines.remove(Integer.parseInt(index) - 1);
+      } catch (IndexOutOfBoundsException e) {
         System.out.println("Unable to remove: index is out of bound");
       }
     }
+    writeFile();
   }
 
   public boolean isNumber(String index) {
@@ -73,7 +80,15 @@ public class FileOPs {
       return true;
     } catch (NumberFormatException e) {
       System.out.println("Unable to remove: index is not a number");
+      System.exit(2);
     }
     return false;
+  }
+
+  public void fillFile() {
+    this.lines.add(new Task("Walk the dog"));
+    this.lines.add(new Task(true, "Buy Milk"));
+    this.lines.add(new Task("Do homework"));
+    writeFile();
   }
 }
