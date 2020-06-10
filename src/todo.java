@@ -7,14 +7,14 @@ public class Todo {
 
     String[] arguments = {"-l", "-a", "-r", "-c"};
 
-    //fIO.readFile();
+    fIO.readFile();
     //fIO.fillFile();
 
     if (args.length == 0) {
       printHelp();
     } else if (Arrays.asList(arguments).contains(args[0])) {
       if (args[0].equals("-l")) {
-        if (fIO.convertFileToTask().size() == 0) {
+        if (fIO.getTasks().size() == 0) {
           System.out.println("No todos for today! :)");
         } else {
           fIO.printContent();
@@ -23,14 +23,12 @@ public class Todo {
         if (args.length < 2) {
           System.out.println("Unable to add: no task provided");
         } else {
-          fIO.convertFileToTask();
           fIO.addNewTask(args[1]);
         }
       } else if (args[0].equals("-r")) {
         if (args.length < 2) {
           System.out.println("Unable to remove: no index provided");
         } else {
-          fIO.convertFileToTask();
           fIO.removeTask(args[1]);
         }
       }

@@ -1,14 +1,14 @@
 public class Task {
-  protected boolean isDone;
   protected String name;
+  protected boolean isDone;
 
   public Task(String name) {
-    this.isDone = false;
     this.name = name;
+    this.isDone = false;
   }
 
-  public Task(boolean isDone, String name) {
-    this.isDone = isDone;
+  public Task(String name, boolean isDone) {
     this.name = name;
+    this.isDone = isDone;
   }
 }
