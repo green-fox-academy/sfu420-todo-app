@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FileOPs {
@@ -47,5 +48,21 @@ public class FileOPs {
   public void addNewTask(String newTask) {
     this.lines.add((this.lines.size() + 1) + " - " + newTask);
     writeFile(this.lines);
+  }
+
+  public void removeTask(String index) {
+    boolean exists = false;
+    for (int i = 0; i < this.lines.size(); i++) {
+      String[] temp = this.lines.get(i).split(" ");
+      if (Integer.parseInt(temp[0]) == Integer.parseInt(index)) {
+        this.lines.remove(i);
+        exists = true;
+      }
+    }
+    if (exists) {
+      writeFile(this.lines);
+    } else {
+      System.out.println("Given task does not exist!");
+    }
   }
 }

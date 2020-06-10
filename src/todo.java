@@ -20,6 +20,12 @@ public class todo {
       } else {
         fIO.addNewTask(args[1]);
       }
+    } else if (args[0].equals("-r")) {
+      if (args.length < 2) {
+        System.out.println("Unable to remove: no index provided");
+      } else {
+        fIO.removeTask(args[1]);
+      }
     }
   }
 
