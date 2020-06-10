@@ -3,12 +3,16 @@ public class todo {
   public static void main(String[] args) {
     FileOPs fIO = new FileOPs();
 
-    fIO.fillFile();
+//    fIO.fillFile();
 
     if (args.length == 0) {
       printHelp();
     } else if (args[0].equals("-l")) {
-      fIO.printContent(fIO.readFile());
+      if (fIO.readFile().size() == 0) {
+        System.out.println("No todos for today! :)");
+      } else {
+        fIO.printContent(fIO.readFile());
+      }
     }
 
   }
