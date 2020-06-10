@@ -14,8 +14,9 @@ public class FileOPs {
       Path filePath = Paths.get("./" + this.filename);
       this.lines = Files.readAllLines(filePath);
     } catch (IOException e) {
-      System.out.println("The file does not exist");
-      System.exit(2);
+      System.out.println("The file does not exist, trying to create a new one...");
+      writeFile(this.lines);
+//      System.exit(2);
     }
     return this.lines;
   }

@@ -3,6 +3,7 @@ public class todo {
   public static void main(String[] args) {
     FileOPs fIO = new FileOPs();
 
+    fIO.readFile();
 //    fIO.fillFile();
 
     if (args.length == 0) {
@@ -14,7 +15,11 @@ public class todo {
         fIO.printContent(fIO.readFile());
       }
     } else if (args[0].equals("-a")) {
-      fIO.addNewTask(args[1]);
+      if (args.length < 2) {
+        System.out.println("Unable to add: no task provided");
+      } else {
+        fIO.addNewTask(args[1]);
+      }
     }
   }
 
